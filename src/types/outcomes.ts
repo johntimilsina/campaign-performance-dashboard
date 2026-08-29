@@ -40,4 +40,6 @@ export type Filters = {
   from?: string
   to?: string
   channel?: string
+  campaign?: string
+  audience?: string
 }

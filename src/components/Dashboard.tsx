@@ -7,7 +7,13 @@ import { BreakdownTable, BreakdownTableSkeleton } from './BreakdownTable'
 import { FilterBar } from './FilterBar'
 import { KpiRow, KpiRowSkeleton } from './KpiRow'
 
-const CLEARED: Filters = { from: undefined, to: undefined, channel: undefined }
+const CLEARED: Filters = {
+  from: undefined,
+  to: undefined,
+  channel: undefined,
+  campaign: undefined,
+  audience: undefined,
+}
 
 function EmptyState() {
   return (

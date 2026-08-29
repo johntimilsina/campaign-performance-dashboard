@@ -8,6 +8,8 @@ export function useFilters() {
     from: params.get('from') ?? undefined,
     to: params.get('to') ?? undefined,
     channel: params.get('channel') ?? undefined,
+    campaign: params.get('campaign') ?? undefined,
+    audience: params.get('audience') ?? undefined,
   }
 
   function setFilters(patch: Partial<Filters>) {

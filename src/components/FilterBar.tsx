@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Filters, Meta } from '../types/outcomes'
 
 type Props = {
@@ -9,34 +10,81 @@ type Props = {
 }
 
 const CONTROL = 'h-8 rounded border border-slate-300 px-2 text-sm text-slate-900'
-const LABEL = 'text-sm font-medium text-slate-700'
+
+function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-sm font-medium text-slate-700">
+        {label}
+      </label>
+      {children}
+    </div>
+  )
+}
+
+function Choice({
+  id,
+  label,
+  anyLabel,
+  options,
+  value,
+  onChange,
+}: {
+  id: string
+  label: string
+  anyLabel: string
+  options: string[]
+  value: string | undefined
+  onChange: (next: string | undefined) => void
+}) {
+  return (
+    <Field id={id} label={label}>
+      <select
+        id={id}
+        className={CONTROL}
+        value={value ?? ''}
+        onChange={(e) => onChange(e.target.value || undefined)}
+      >
+        <option value="">{anyLabel}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </Field>
+  )
+}
 
 export function FilterBar({ meta, filters, isFetching, onChange, onReset }: Props) {
   return (
     <div className="relative flex flex-wrap items-end gap-4 border-b border-slate-200 pb-4">
-      <div className="flex flex-col gap-1">
-        <label htmlFor="channel" className={LABEL}>
-          Channel
-        </label>
-        <select
-          id="channel"
-          className={CONTROL}
-          value={filters.channel ?? ''}
-          onChange={(e) => onChange({ channel: e.target.value || undefined })}
-        >
-          <option value="">All channels</option>
-          {meta.channels.map((channel) => (
-            <option key={channel} value={channel}>
-              {channel}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Choice
+        id="channel"
+        label="Channel"
+        anyLabel="All channels"
+        options={meta.channels}
+        value={filters.channel}
+        onChange={(channel) => onChange({ channel })}
+      />
+      <Choice
+        id="campaign"
+        label="Campaign"
+        anyLabel="All campaigns"
+        options={meta.campaigns}
+        value={filters.campaign}
+        onChange={(campaign) => onChange({ campaign })}
+      />
+      <Choice
+        id="audience"
+        label="Audience"
+        anyLabel="All audiences"
+        options={meta.audiences}
+        value={filters.audience}
+        onChange={(audience) => onChange({ audience })}
+      />
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="from" className={LABEL}>
-          From
-        </label>
+      <Field id="from" label="From">
         <input
           id="from"
           type="date"
@@ -46,12 +94,9 @@ export function FilterBar({ meta, filters, isFetching, onChange, onReset }: Prop
           max={filters.to}
           onChange={(e) => onChange({ from: e.target.value || undefined })}
         />
-      </div>
+      </Field>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="to" className={LABEL}>
-          To
-        </label>
+      <Field id="to" label="To">
         <input
           id="to"
           type="date"
@@ -61,7 +106,7 @@ export function FilterBar({ meta, filters, isFetching, onChange, onReset }: Prop
           max={meta.dateRange.to}
           onChange={(e) => onChange({ to: e.target.value || undefined })}
         />
-      </div>
+      </Field>
 
       <button
         type="button"
