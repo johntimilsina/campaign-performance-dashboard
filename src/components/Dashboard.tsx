@@ -6,6 +6,7 @@ import type { Filters, Meta } from '../types/outcomes'
 import { BreakdownTable, BreakdownTableSkeleton } from './BreakdownTable'
 import { FilterBar } from './FilterBar'
 import { KpiRow, KpiRowSkeleton } from './KpiRow'
+import { SpendChart, SpendChartSkeleton } from './SpendChart'
 
 const CLEARED: Filters = {
   from: undefined,
@@ -68,6 +69,7 @@ export function Dashboard({ meta }: { meta: Meta }) {
         {isPending && (
           <>
             <KpiRowSkeleton />
+            <SpendChartSkeleton />
             <BreakdownTableSkeleton rows={resolved.channel ? 1 : meta.channels.length} />
           </>
         )}
@@ -75,6 +77,7 @@ export function Dashboard({ meta }: { meta: Meta }) {
         {data && data.rowCount > 0 && (
           <div className={`flex flex-col gap-6 ${isFetching ? 'opacity-60' : ''}`}>
             <KpiRow kpis={data.kpis} />
+            <SpendChart points={data.timeseries} />
             <BreakdownTable rows={data.breakdown} />
           </div>
         )}
