@@ -3,7 +3,9 @@ import { resolveFilters } from '../lib/dateRange'
 import { useOutcomes } from '../lib/queries'
 import { useFilters } from '../lib/useFilters'
 import type { Filters, Meta } from '../types/outcomes'
+import { BreakdownTable } from './BreakdownTable'
 import { FilterBar } from './FilterBar'
+import { KpiRow } from './KpiRow'
 
 const CLEARED: Filters = { from: undefined, to: undefined, channel: undefined }
 
@@ -20,7 +22,12 @@ export function Dashboard({ meta }: { meta: Meta }) {
         onChange={setFilters}
         onReset={() => setFilters(CLEARED)}
       />
-      <p className="text-sm text-slate-600">{data ? `${data.rowCount} rows` : 'Loading…'}</p>
+      {data && (
+        <>
+          <KpiRow kpis={data.kpis} />
+          <BreakdownTable rows={data.breakdown} />
+        </>
+      )}
     </div>
   )
 }
