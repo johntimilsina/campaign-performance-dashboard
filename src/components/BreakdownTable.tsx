@@ -69,19 +69,19 @@ export function BreakdownTableSkeleton({ rows }: { rows: number }) {
       {Array.from({ length: rows }, (_, i) => (
         <tr key={i} className={ROW}>
           <th scope="row" className={ROW_HEAD}>
-            <Bar className="h-5 w-16" />
+            <Bar className="h-5 w-12" />
           </th>
           <td className={CELL}>
-            <Bar className="ml-auto h-5 w-20" />
+            <Bar className="ml-auto h-5 w-16" />
           </td>
           <td className={CELL}>
-            <Bar className="ml-auto h-5 w-14" />
+            <Bar className="ml-auto h-5 w-10" />
           </td>
           <td className={CELL}>
-            <Bar className="ml-auto h-5 w-24" />
+            <Bar className="ml-auto h-5 w-16" />
           </td>
           <td className={CELL}>
-            <Bar className="ml-auto h-5 w-12" />
+            <Bar className="ml-auto h-5 w-9" />
           </td>
         </tr>
       ))}
